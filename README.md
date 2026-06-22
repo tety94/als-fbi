@@ -79,12 +79,6 @@ All analyses use `numpy.random.seed(2026)` and `random_state=2026` in
 scikit-learn / StepMix calls. Re-running on the same machine and library
 versions reproduces every number in the manuscript exactly.
 
-Library versions tested:
-- numpy 1.26+, pandas 2.0+
-- scikit-learn 1.3+
-- statsmodels 0.14+
-- stepmix 2.2+
-- matplotlib 3.7+, scipy 1.11+
 
 ---
 
@@ -130,36 +124,6 @@ Library versions tested:
 NA = missing. The consensus gold (`gold_consensus`) and `gold_count` are
 defined only on the 345 complete-case patients.
 
-### Source variable mapping (for the original PARALS SAV file)
-
-| Analytic name | Original SAV column |
-|---|---|
-| `patient_id` | `CODICE` |
-| `age_at_test` | `ETATEST` |
-| `sex` | `Sex` |
-| `education_years` | `Scol` |
-| `onset_site` | `ESO_BUL_SPI` (B/S) |
-| `alsfrs_r_total` | `ALSFRSRTOT` |
-| `mitos` | `MITOS` |
-| `kings` | `KINGS` |
-| `c9orf72` | `C9ORF72` |
-| `strong_2017` | `STRONG2017` |
-| `fbi_total` | `FBI_total_score` |
-| `fbi_apathy` | `FBI_apathy` |
-| `fbi_disinhib` | `FBI_disinib` |
-| `ecas_beh_patol` | `ECAS_BEH_PATOL` |
-| `ecas_disin_patol` | `ECAS_DISIN_PATOL` |
-| `ecas_lossemp_patol` | `ECAS_LOS_EMP_PATOL` |
-| `frsbe_total_patol` | `FRSBE_TOTALE_PATOL` |
-| `frsbe_apathy_patol` | `FRSBE_APATIA_PATOL` |
-| `frsbe_disinhib_patol` | `FRSBE_DISINIB_PATOL` |
-| `bbi_patol` | `BBI_PATOL` |
-
-Filters applied (in `01_build_dataset.py`):
-- `SLA_NONSLA == 'SLA'`
-- `FBI_total_score IS NOT NULL`
-
----
 
 ## Statistical methods (verbatim from the manuscript)
 
@@ -200,34 +164,3 @@ initialisations and `random_state=2026`.
 - Bulbar (n=76) vs spinal (n=197) onset, using `ESO_BUL_SPI` from the
   original database; missing onset (87 patients in the full FBI cohort)
   excluded from this analysis.
-
----
-
-## Headline results to expect (verify after re-running)
-
-| | Value |
-|---|---|
-| FBI cohort N | 506 |
-| Complete-case N | 345 |
-| Gold-impaired (consensus) | 85 / 345 (24.6 %) |
-| AUC FBI vs consensus | 0.855 (95% CI 0.806–0.898) |
-| Youden cut-off | FBI ≥ 9 |
-| Bootstrap 95% CI for cut-off | 8 – 15 |
-| Sens at ≥ 9 | 0.871 |
-| Spec at ≥ 9 | 0.738 |
-| Sens at ≥ 25 (legacy) | 0.224 |
-| 5-fold CV cut-offs | 9, 9, 9, 9, 9 |
-| FBI-Apathy Youden cut | ≥ 7 (AUC 0.808) |
-| FBI-Disinhibition Youden cut | ≥ 4 (AUC 0.851) |
-| Bulbar (n=76) Youden cut | ≥ 15 (AUC 0.873); sens @ ≥9 = 0.88 |
-| Spinal (n=197) Youden cut | ≥ 9 (AUC 0.861); sens @ ≥9 = 0.84 |
-
----
-
-## Contact
-
-Adriano Chiò, MD — adriano.chio@unito.it
-ORCID: 0000-0001-9579-5341
-
-This package is licensed CC-BY 4.0. A permanent DOI will be assigned via Zenodo
-at the time of acceptance.
