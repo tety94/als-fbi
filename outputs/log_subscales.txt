@@ -1,0 +1,66 @@
+================================================================================
+SUBSCALE RECALIBRATION
+================================================================================
+
+Complete-case n=345, gold prevalence=24.6%
+FBI Apathy:       mean=6.78 ± 6.44, median=5
+FBI Disinhibition: mean=2.60 ± 3.67, median=1
+
+--------------------------------------------------------------------------------
+FBI APATHY (items 1–12, range 0–36)
+--------------------------------------------------------------------------------
+  n_check: FBI Apathy vs Consensus anchor n=345 matches complete-case n=345.
+
+FBI Apathy vs consensus (n=345, prev=24.6%):
+  AUC = 0.8083 (95% CI 0.7536–0.8613)
+  Youden cut-off = FBI-Apathy ≥ 7  (95% CI 5–11)
+  Sens = 0.8000, Spec = 0.7231, κ = +0.4295
+
+Candidate cut-offs:
+  ≥5: sens=0.8706, spec=0.6038, κ=+0.3478
+  ≥6: sens=0.8235, spec=0.6846, κ=+0.4016
+  ≥7: sens=0.8000, spec=0.7231, κ=+0.4295
+  ≥8: sens=0.7529, spec=0.7692, κ=+0.4523
+  ≥9: sens=0.6941, spec=0.8077, κ=+0.4583
+  ≥10: sens=0.6706, spec=0.8269, κ=+0.4661
+  n_check: FBI Apathy vs FrSBe-Apathy anchor n=345 matches complete-case n=345.
+
+FBI Apathy vs FrSBe-Apathy (n=345, prev=26.1%):
+  AUC = 0.8154  (95% CI 0.7681–0.8613)
+  Youden cut-off = FBI Apathy ≥ 8  (95% CI 6–9)
+  Sens = 0.7667, Spec = 0.7843, κ = +0.4910
+
+--------------------------------------------------------------------------------
+FBI DISINHIBITION (items 13–24, range 0–36)
+--------------------------------------------------------------------------------
+  n_check: FBI Disinhibition vs Consensus anchor n=345 matches complete-case n=345.
+
+FBI Disinhibition vs consensus (n=345, prev=24.6%):
+  AUC = 0.8510 (95% CI 0.8027–0.8958)
+  Youden cut-off = FBI-Disinhibition ≥ 4  (95% CI 2–5)
+  Sens = 0.6471, Spec = 0.8808, κ = +0.5257
+
+Candidate cut-offs:
+  ≥1: sens=0.9647, spec=0.3923, κ=+0.2212
+  ≥2: sens=0.8588, spec=0.6462, κ=+0.3835
+  ≥3: sens=0.7059, spec=0.7923, κ=+0.4469
+  ≥4: sens=0.6471, spec=0.8808, κ=+0.5257
+  ≥5: sens=0.5529, spec=0.9346, κ=+0.5318
+  ≥6: sens=0.4706, spec=0.9577, κ=+0.4949
+  ≥7: sens=0.4000, spec=0.9769, κ=+0.4586
+  n_check: FBI Disinhibition vs FrSBe-Disinhibition anchor n=345 matches complete-case n=345.
+
+FBI Disinhibition vs FrSBe-Disinhibition (n=345, prev=10.4%):
+  AUC = 0.8092  (95% CI 0.7429–0.8703)
+  Youden cut-off = FBI Disinhibition ≥ 2  (95% CI 2–8)
+  Sens = 0.9444, Spec = 0.5761, κ = +0.2015
+  n_check: FBI Disinhibition vs ECAS-Disinhibition anchor n=345 matches complete-case n=345.
+
+FBI Disinhibition vs ECAS-Disinhibition (n=345, prev=6.1%):
+  AUC = 0.7763  (95% CI 0.6810–0.8677)
+  Youden cut-off = FBI Disinhibition ≥ 4  (95% CI 2–7)
+  Sens = 0.6667, Spec = 0.7778, κ = +0.1816
+
+Written: ..\outputs\table3_subscales.csv
+
+Table 3: all rows share n=345.

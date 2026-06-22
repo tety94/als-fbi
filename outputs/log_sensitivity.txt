@@ -1,0 +1,60 @@
+================================================================================
+SENSITIVITY ANALYSIS — BULBAR vs SPINAL ONSET
+================================================================================
+
+Complete-case n=345, with onset recorded: 273
+  Bulbar n=76 (27.8%), gold prev = 31.6%
+  Spinal n=197 (72.2%), gold prev = 25.4%
+
+Mann–Whitney U tests (bulbar vs spinal raw scores):
+  fbi_total     : U=8430, p=0.1058
+  fbi_apathy    : U=8446, p=0.0996
+  fbi_disinhib  : U=8122, p=0.2667
+  NOTE: tests score location only — NOT whether the FBI-impairment relationship differs by group. The interaction test below is the more direct answer to the motor-confound question.
+
+Bulbar onset (n=76):
+  AUC=0.8730, Youden cut-off=FBI≥15 (95% CI 7–15)
+  At FBI≥9 : sens=0.8750, spec=0.7308, κ=+0.5392
+  At FBI≥25: sens=0.2917, spec=0.9808, κ=+0.3320
+  FBI mean=10.80±11.48, median=7
+
+Spinal onset (n=197):
+  AUC=0.8611, Youden cut-off=FBI≥9 (95% CI 8–12)
+  At FBI≥9 : sens=0.8400, spec=0.7823, κ=+0.5372
+  At FBI≥25: sens=0.2000, spec=0.9796, κ=+0.2376
+  FBI mean=8.49±8.41, median=6
+
+Written: ..\outputs\table5_bulbar_spinal.csv
+
+================================================================================
+FBI × onset-site INTERACTION TEST (logistic regression)
+================================================================================
+Tests formally whether the FBI-impairment relationship differs by onset site (single unified model, one p-value) — more direct than comparing two separately-fit ROC curves.
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:         gold_consensus   No. Observations:                  273
+Model:                          Logit   Df Residuals:                      269
+Method:                           MLE   Df Model:                            3
+Date:                Mon, 22 Jun 2026   Pseudo R-squ.:                  0.3090
+Time:                        09:33:08   Log-Likelihood:                -110.23
+converged:                       True   LL-Null:                       -159.52
+Covariance Type:            nonrobust   LLR p-value:                 3.144e-21
+================================================================================
+                   coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+const           -2.9008      0.365     -7.945      0.000      -3.616      -2.185
+fbi_total        0.1799      0.028      6.382      0.000       0.125       0.235
+bulbar          -0.2284      0.751     -0.304      0.761      -1.700       1.244
+fbi_x_bulbar     0.0301      0.058      0.514      0.607      -0.085       0.145
+================================================================================
+
+FBI × bulbar interaction p-value = 0.6070
+  Non-significant interaction — consistent with a shared FBI-impairment relationship across onset sites. (Absence of significance ≠ proof of no effect, especially in a single-centre moderate-sized sample.)
+
+Interpretation (auto-generated from computed rows + interaction test):
+  κ at FBI≥9: 0.539 (bulbar), 0.537 (spinal)
+  sens/spec at FBI≥9: 0.88/0.73 (bulbar), 0.84/0.78 (spinal)
+  sens at FBI≥25: 0.29 (bulbar), 0.20 (spinal)
+  Youden cut-offs: bulbar FBI≥15 [7–15], spinal FBI≥9 [8–12]
+  Interaction p=0.6070, |Δκ|=0.002
+  Both checks agree: a single cut-off of 9 is reasonable across sites.

@@ -1,0 +1,6 @@
+Calibration diagnostics for the quadratic logistic calibration model
+logit(p) = b0 + b1*FBI + b2*FBI^2
+
+Spiegelhalter z = 0.1364, p = 0.8915
+Calibration intercept = -0.0000 (ideal: 0)
+Calibration slope = 1.0000 (ideal: 1)

@@ -1,0 +1,53 @@
+FBI Recalibration in ALS — Reproducibility Package
+===================================================
+
+This package reproduces all numbers and figures in:
+
+  Chiò A et al. Recalibration of the Frontal Behavioural Inventory cut-off
+  for behavioural screening in amyotrophic lateral sclerosis. Submitted to
+  Amyotrophic Lateral Sclerosis and Frontotemporal Degeneration.
+
+Contents
+--------
+README.md                              Full documentation
+requirements.txt                       Python dependencies
+data/
+  analytic_dataset.csv                 N=506 ALS patients (de-identified)
+  analytic_dataset.sav                 Same data, SPSS format
+  PATIENT_LIST.csv                     Study IDs + complete-case flag
+  variable_dictionary.csv              Codebook
+scripts/
+  helpers.py                           Shared utility functions
+  00_table1_demographics.py            Generate Table 1
+  01_build_dataset.py                  Source SAV -> analytic dataset
+  02_main_recalibration.py             ROC, Youden, bootstrap, LCA, kappa, CV
+  03_subscales.py                      Apathy + Disinhibition recalibration
+  04_sensitivity_bulbar_spinal.py      Onset-stratified analysis
+  05_figures.py                        Figure 1 (ROC) + Figure 2 (calibration belt)
+outputs/
+  log_main.txt                         Verbose log from script 02
+  log_subscales.txt                    Verbose log from script 03
+  log_sensitivity.txt                  Verbose log from script 04
+  table1_demographics.csv              Table 1
+  table2_cutoffs.csv                   Table 2
+  table3_subscales.csv                 Table 3
+  table4_kappa.csv                     Table 4
+  table5_bulbar_spinal.csv             Sensitivity analysis (Discussion / Supp)
+figures/
+  Figure1_ROC.png/.pdf                 Figure 1 of the manuscript
+  Figure2_calibration_belt.png/.pdf    Figure 2 of the manuscript
+
+How to reproduce
+----------------
+$ pip install -r requirements.txt
+$ cd scripts
+$ python 02_main_recalibration.py         # ~30 sec, replicates headline numbers
+$ python 03_subscales.py                  # ~10 sec
+$ python 04_sensitivity_bulbar_spinal.py  # ~10 sec
+$ python 05_figures.py                    # ~15 sec
+
+The script 01_build_dataset.py is the only one that needs the original SPSS
+file (PII-bearing). The de-identified analytic dataset in data/ allows
+scripts 02–05 to run as-is.
+
+Random seed = 2026 everywhere. Bootstrap samples = 2000.

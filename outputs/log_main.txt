@@ -1,0 +1,119 @@
+================================================================================
+FBI RECALIBRATION — MAIN ANALYSES
+================================================================================
+
+Loaded ..\data\analytic_dataset.csv: n=506 rows, 24 columns
+Complete-case subset: n=345
+Gold-impaired prevalence: 24.6% (85/345)
+
+================================================================================
+1. FBI total vs CONSENSUS reference standard
+================================================================================
+AUC = 0.8552
+Youden cut-off: FBI ≥ 9  (sens=0.8706, spec=0.7385, J=0.6090)
+
+Bootstrap (n=2000, stratified):
+  AUC 95% CI    : [0.8092, 0.8993]
+  Cut-off 95% CI: [8.0, 15.0]
+
+Candidate cut-offs (Table 2):
+  FBI ≥  8: sens=0.8941  spec=0.6885  ppv=0.4841  npv=0.9521  κ=+0.4533  (TP=76, FP=81, TN=179, FN=9)
+  FBI ≥  9: sens=0.8706  spec=0.7385  ppv=0.5211  npv=0.9458  κ=+0.4969  (TP=74, FP=68, TN=192, FN=11)
+  FBI ≥ 10: sens=0.8000  spec=0.7731  ppv=0.5354  npv=0.9220  κ=+0.4914  (TP=68, FP=59, TN=201, FN=17)
+  FBI ≥ 12: sens=0.7294  spec=0.8308  ppv=0.5849  npv=0.9038  κ=+0.5172  (TP=62, FP=44, TN=216, FN=23)
+  FBI ≥ 15: sens=0.6588  spec=0.9038  ppv=0.6914  npv=0.8902  κ=+0.5717  (TP=56, FP=25, TN=235, FN=29)
+  FBI ≥ 25: sens=0.2235  spec=0.9769  ppv=0.7600  npv=0.7937  κ=+0.2629  (TP=19, FP=6, TN=254, FN=66)
+Written: ..\outputs\table2_cutoffs.csv
+
+================================================================================
+2. LATENT CLASS ANALYSIS
+================================================================================
+
+LCA-3 (ECAS-beh, FrSBe total, BBI), n_init=200:
+  k=1: BIC=1178.14, logLik=-580.30, n_par=3
+  k=2: BIC=1114.92, logLik=-537.01, n_par=7
+  k=3: BIC=1138.29, logLik=-537.01, n_par=11
+  Selected by BIC: k=2  (matches the k=2 used downstream)
+  Prevalence (k=2): 42.6%
+  NOTE: saturated model (7 params vs 2^3-1=7 df) — BIC comparison valid, but absolute GoF cannot be tested here.
+  AUC=0.8339, cut-off=FBI≥8, bootstrap CI [8, 10]
+
+LCA-7 (ecas_beh_patol, frsbe_total_patol, bbi_patol, ecas_disin_patol, ecas_lossemp_patol, frsbe_apathy_patol, frsbe_disinhib_patol), n_init=200:
+  n with all 7 indicators: 345
+  k=1: BIC=2230.08, logLik=-1094.59, n_par=7
+  k=2: BIC=1976.07, logLik=-944.21, n_par=15
+  k=3: BIC=1972.97, logLik=-919.29, n_par=23
+  k=4: BIC=1998.33, logLik=-908.59, n_par=31
+  *** WARNING [LCA-7]: BIC favours k=3, but the pipeline is configured to use k=2 for the binary impaired/unimpaired framework. This is a DELIBERATE override for interpretability, NOT a BIC-driven choice — disclose this explicitly in the manuscript if this warning fires. ***
+  Prevalence (k=2): 31.0%
+  AUC=0.8206, cut-off=FBI≥9, bootstrap CI [8, 12]
+
+================================================================================
+2b. LCA DIAGNOSTICS (entropy, AvePP, bivariate residuals, BLRT)
+================================================================================
+
+LCA-3 (k=2):
+  Entropy R = 0.625  (>=0.8 good, <0.6 poor)
+  Class 0: n=147, AvePP=0.768  (>=0.7 acceptable)
+  Class 1: n=198, AvePP=0.956  (>=0.7 acceptable)
+  Bivariate residuals: NOT INFORMATIVE — model is saturated (7 params vs 7 df). Do not report 'no local dependence detected' here; say the test is uninformative.
+
+LCA-7 (k=2):
+  Entropy R = 0.791  (>=0.8 good, <0.6 poor)
+  Class 0: n=238, AvePP=0.947  (>=0.7 acceptable)
+  Class 1: n=107, AvePP=0.933  (>=0.7 acceptable)
+  Bivariate residuals: 5/21 pairs flagged (BVR>3.84)
+    (ecas_beh_patol, ecas_disin_patol): BVR=14.16  <-- FLAGGED
+    (frsbe_total_patol, frsbe_apathy_patol): BVR=11.35  <-- FLAGGED
+    (ecas_disin_patol, frsbe_apathy_patol): BVR=5.38  <-- FLAGGED
+    (ecas_beh_patol, ecas_lossemp_patol): BVR=5.07  <-- FLAGGED
+    (ecas_beh_patol, bbi_patol): BVR=5.04  <-- FLAGGED
+
+BLRT k=1 vs k=2 (n_boot=99; slow, several minutes):
+  LCA-3: T_obs=86.59, p=0.000 — >=2 classes supported
+  LCA-7: T_obs=300.76, p=0.000 — >=2 classes supported
+
+================================================================================
+3. COHEN'S κ — new (FBI≥9) vs legacy (FBI≥25)
+================================================================================
+
+Reference                            n   sens@9       κ@9      κ@25        Δκ
+--------------------------------------------------------------------------------
+ECAS-behavioural                   345   0.7500   +0.3309   +0.1665   +0.1644
+FrSBe total                        345   0.8571   +0.3666   +0.2139   +0.1527
+BBI                                345   0.7361   +0.5581   +0.1561   +0.4020
+Consensus ≥2/3                     345   0.8706   +0.4969   +0.2629   +0.2340
+LCA-3                              345   0.7347   +0.5655   +0.1506   +0.4148
+LCA-7                              345   0.8037   +0.5215   +0.1416   +0.3799
+Written: ..\outputs\table4_kappa.csv
+Table 4: all rows share n=345.
+
+================================================================================
+4. COST-WEIGHTED CUTOFF (decision-theoretic, alternative to Youden's J)
+================================================================================
+Youden's J implicitly assumes equal cost for FN and FP (1:1). The table below shows how the cost-minimising cut-off shifts as FN are assumed increasingly more costly — the clinically realistic scenario for a screening tool where missing a case is worse than a false alarm:
+  FN:FP = 1:1  ->  FBI ≥ 15  (total cost = 54)
+  FN:FP = 2:1  ->  FBI ≥ 15  (total cost = 83)
+  FN:FP = 3:1  ->  FBI ≥ 9  (total cost = 101)
+  FN:FP = 5:1  ->  FBI ≥ 9  (total cost = 123)
+  FN:FP = 8:1  ->  FBI ≥ 8  (total cost = 153)
+
+================================================================================
+5. INTERNAL VALIDATION
+================================================================================
+
+70/30 split: training cut-off FBI≥9, test sens=0.9615, spec=0.7051 (n_test=104, single split — noisier than CV below)
+
+5-fold stratified cross-validation:
+  Fold 1: cut-off=FBI≥9, test sens=0.8235, spec=0.7308
+  Fold 2: cut-off=FBI≥9, test sens=0.8824, spec=0.7885
+  Fold 3: cut-off=FBI≥9, test sens=0.8824, spec=0.8077
+  Fold 4: cut-off=FBI≥9, test sens=0.8235, spec=0.6731
+  Fold 5: cut-off=FBI≥9, test sens=0.9412, spec=0.6923
+  Mean cut-off=9.00, mean sens=0.8706, mean spec=0.7385
+
+.632+ bootstrap (optimism-corrected, n_boot=500):
+  Cut-off: FBI ≥ 9
+  Misclassification: apparent=0.2290, OOB=0.2284, .632+=0.2286 (R=0.00)
+  AUC: apparent=0.8552, OOB=0.8551, .632+=0.8551 (R=0.00)
+  NOTE: AUC optimism near zero is expected — FBI is a fixed instrument, nothing is fit to compute it. Optimism concentrates in the cut-off's misclassification rate (product of data-driven Youden optimisation).

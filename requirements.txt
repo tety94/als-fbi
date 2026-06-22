@@ -1,0 +1,16 @@
+# Requirements for the FBI recalibration pipeline (00-05 + helpers.py).
+# Verified together with a full end-to-end run (00 -> 02 -> 03 -> 04 -> 05)
+# on 2026-06-21. Pin loosely (>=) if you don't need bit-for-bit
+# reproducibility; pin exactly (==) if you do, e.g. before re-running the
+# pipeline to regenerate the numbers already reported in the manuscript.
+
+numpy==2.4.4
+pandas==3.0.2
+scikit-learn==1.8.0        # roc_curve, roc_auc_score, confusion_matrix, cohen_kappa_score, train_test_split, StratifiedKFold
+scipy==1.17.1              # scipy.stats.mannwhitneyu (04_sensitivity_bulbar_spinal.py)
+stepmix==3.0.0             # Latent Class Analysis (helpers.fit_lca)
+pyreadstat==1.3.5          # reading/writing the source .sav file (01_build_dataset.py)
+matplotlib==3.10.8         # Figures 1-2 (05_figures.py)
+statsmodels==0.14.6        # quadratic logistic calibration belt (05_figures.py) -- easy to miss,
+                            # only imported inside 05, not exercised by 00-04
+python-docx==1.2.0         # Word table export (00_table1_demographics.py)
