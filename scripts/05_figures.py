@@ -162,13 +162,6 @@ axb.plot(grid, phat, color='#1f4e79', lw=2.6, label='Calibrated P(impairment)')
 axb.scatter(emp['mid'], emp['p'], s=emp['n'] * 3.2, color='#c00000', zorder=6,
             edgecolor='white', linewidth=1.2, alpha=0.9,
             label='Observed proportion (dot size ∝ n)')
-for c, col, lab in [(9, '#2e7d32', 'New cut-off: FBI ≥ 9'),
-                    (25, '#ed7d31', 'Legacy cut-off: FBI ≥ 25')]:
-    axb.axvline(c, color=col, lw=2, ls='--')
-    pc = mod.predict(np.array([[1, c, c**2]]))[0]
-    axb.annotate(f'{lab}\nP={pc:.0%}', xy=(c, pc),
-                 xytext=(c + 1.2, min(pc + 0.16, 0.95)),
-                 fontsize=9.5, color=col, fontweight='bold')
 axb.plot(fbi[y == 1], np.full((y == 1).sum(), 1.005),
          '|', color='#c00000', ms=6, alpha=0.5)
 axb.plot(fbi[y == 0], np.full((y == 0).sum(), -0.005),
@@ -181,7 +174,24 @@ axb.set_title(
     f'Spiegelhalter p={sh["p_value"]:.3f}, '
     f'slope={cal["slope"]:.2f}, intercept={cal["intercept"]:.2f}',
     fontsize=11.5, fontweight='bold')
-axb.legend(loc='center right', fontsize=9.5, framealpha=0.95)
+# legenda spostata in basso a destra
+axb.legend(loc='lower right', fontsize=9.5, framealpha=0.95)
+
+for c, col, lab in [(9, '#2e7d32', 'New cut-off: FBI ≥ 9'),
+                    (25, '#ed7d31', 'Legacy cut-off: FBI ≥ 25')]:
+    axb.axvline(c, color=col, lw=2, ls='--')
+    pc = mod.predict(np.array([[1, c, c**2]]))[0]
+    if col == '#2e7d32':
+        axb.annotate(f'{lab}\nP={pc:.0%}', xy=(c, pc),
+                     xytext=(c - 1.2, min(pc + 0.14, 0.95)),
+                     fontsize=9.5, color=col, fontweight='bold',
+                     ha='right', va='center')
+    else:
+        axb.annotate(f'{lab}\nP={pc:.0%}', xy=(c, pc),
+                     xytext=(c + 1.2, min(pc + 0.16, 0.95)),
+                     fontsize=9.5, color=col, fontweight='bold',
+                     ha='left', va='center')
+
 axb.grid(alpha=0.25)
 
 axs2.plot(cutoffs, sens_arr, color='#c00000', lw=2.4, label='Sensitivity')
@@ -191,7 +201,8 @@ axs2.axvline(25, color='#ed7d31', lw=2, ls='--')
 s9 = sens_at[9]; s25 = sens_at[25]
 sp9 = spec_at[9]; sp25 = spec_at[25]
 axs2.scatter([9, 25], [s9, s25], color='black', zorder=6, s=60)
-axs2.text(26, (s9 + s25) / 2 + 0.05,
+box_y = (s9 + s25) / 2 + 0.12  # prima era +0.05, aumentato a +0.12
+axs2.text(26, box_y,
           f'FBI ≥ 9 : sens {s9:.0%}, spec {sp9:.0%}\n'
           f'FBI ≥ 25: sens {s25:.0%}, spec {sp25:.0%}\n'
           f'Sensitivity gain: +{(s9 - s25) * 100:.0f} pp\n'
@@ -200,15 +211,20 @@ axs2.text(26, (s9 + s25) / 2 + 0.05,
           bbox=dict(boxstyle='round,pad=0.4', fc='#fff4e6', ec='#ed7d31'))
 axs2.text(9,  -0.13, 'FBI ≥ 9',  color='#2e7d32', ha='center', fontsize=9, fontweight='bold')
 axs2.text(25, -0.13, 'FBI ≥ 25', color='#ed7d31', ha='center', fontsize=9, fontweight='bold')
+
+
+axs2.legend(loc='upper right', bbox_to_anchor=(0.98, 0.28), fontsize=9.5)
+
+
 axs2.set_xlabel('FBI score (cut-off)')
 axs2.set_ylabel('Cumulative sensitivity / specificity')
 axs2.set_ylim(0, 1.02)
 axs2.set_xlim(0, xmax_disp)
-axs2.legend(loc='center right', fontsize=9.5)
 axs2.grid(alpha=0.25)
 plt.tight_layout()
 plt.savefig(FIGDIR / 'Figure2_calibration_belt.png', dpi=300, bbox_inches='tight')
 plt.savefig(FIGDIR / 'Figure2_calibration_belt.pdf', bbox_inches='tight')
+
 plt.close()
 print(f"Saved: {FIGDIR/'Figure2_calibration_belt.png'}")
 print("\nAll figures generated.")
