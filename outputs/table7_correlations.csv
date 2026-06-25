@@ -1,0 +1,2 @@
+ALSFRS-R domain,n,FBI total rho,FBI total 95% CI,FBI total p,FBI total flag,FBI Apathy rho,FBI Apathy 95% CI,FBI Apathy p,FBI Apathy flag,FBI Disinhibition rho,FBI Disinhibition 95% CI,FBI Disinhibition p,FBI Disinhibition flag
+"Total (only, CSV path)",247,-0.217,"[-0.334, -0.084]",0.001,,-0.218,"[-0.331, -0.091]",0.001,,-0.142,"[-0.263, -0.016]",0.026,
